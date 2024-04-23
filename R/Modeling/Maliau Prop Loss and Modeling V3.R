@@ -29,14 +29,7 @@ PlaybackSeqUpdated <- PlaybackSeq[-PulsesToRemove]
 SelectionIDsMaliau <- SelectionIDsMaliau[-PulsesToRemove,]
 
 
-#MaliauDF <- read.csv("/Users/denaclink/Desktop/RStudio Projects/Propogation-Loss-2022/BackgroundNoiseRemovedMaliauAugust9AdaptiveNoiseMinNoise.csv")
-MaliauDF <- read.csv("/Users/denaclink/Desktop/RStudio Projects/Propogation-Loss-2022/BackgroundNoiseRemovedMaliauFeb2023.csv")
-#MaliauDF <- read.csv("/Users/denaclink/Desktop/RStudio Projects/Propogation-Loss-2022/BackgroundNoiseRemovedMaliauJuly2022.csv")
-PredictedSpreading <- read.csv("Predicted_dB_Spherical.csv")
-PredictedSpreadingMaliau <- subset(PredictedSpreading,Site=='Maliau')
-
-
-MaliauDF <- na.omit(MaliauDF)
+MaliauDF <- read.csv("/Users/denaclink/Desktop/RStudio Projects/Propagation-loss-2023/BackgroundNoiseRemovedMaliauJune2023.csv")
 MaliauDF <- droplevels(subset(MaliauDF, date != '20190825'))
 
 # Remove pulses
@@ -44,15 +37,20 @@ MaliauDF <- droplevels(subset(MaliauDF, date != '20190825'))
 TempSoundType <- 
   str_split_fixed(MaliauDF$Sound.Type, pattern = '_',n=3)[,2]
 
-TempSoundType <- substr(TempSoundType,start = 1,stop=2)
+PulsesToRemove <- c(which(str_detect(MaliauDF$Sound.Type,pattern ='Pmor_P8' )),
+                    which(str_detect(MaliauDF$Sound.Type,pattern ='Pmor_P9' )),
+                    which(str_detect(MaliauDF$Sound.Type,pattern ='Pmor_P10' )),
+                    which(str_detect(MaliauDF$Sound.Type,pattern ='Pmor_start' )))
+                    
 
-PulsesToRemove <- which(TempSoundType!="Hf" & TempSoundType!="Ha")
+#PulsesToRemove <- which(TempSoundType!="Hf" & TempSoundType!="Ha")
 
 MaliauDF <- MaliauDF[-PulsesToRemove,]
 
 
+
 # Read in GPS data
-source('readGPX.R')
+source('R/readGPX.R')
 recorder.gps <- readGPX("/Users/denaclink/Downloads/MB Playbacks 50 m.GPX") 
 
 
@@ -161,13 +159,9 @@ for(z in 1:length(unique.date.time.combo)) { #tryCatch({
       # Assign distance to new variable
       distance <- distance.from.source
       print(distance)
-      isolate.distance <- which.min(abs(PredictedSpreadingMaliau$Dist2 - distance))
-      
-      PredictedSpreadingMaliauTemp <- PredictedSpreadingMaliau[isolate.distance,]
-      
-      ActualDbDifference <- temp.recorder.source$PowerDb  - temp.recorder.received$PowerDb  
-      
-      ExcessAttenuation <-  ActualDbDifference -PredictedSpreadingMaliauTemp$dBLoss_Spherical
+        
+      Spherical <- 20*log10(distance) 
+      ExcessAttenuation <- Spherical-temp.recorder.received$PowerDb
       
       # Assign noise level estimate to new variable
       noise.level <- temp.recorder.received$NoisevalueDb

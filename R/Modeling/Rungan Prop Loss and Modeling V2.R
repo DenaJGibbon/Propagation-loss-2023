@@ -35,13 +35,13 @@ PlaybackSeq <- seq(1,nrow(SelectionIDsRungan),1)
 SelectionIDsRungan <- SelectionIDsRungan[-PulsesToRemove,]
 
 #NOTE that there are two Pwur call types
-RunganDF <- read.csv('BackgroundNoiseRemovedDFRunganFeb2023adaptiveCombinedDF.csv')
+RunganDF <- read.csv('BackgroundNoiseRemovedDFRunganAugust2023.csv')
 PredictedSpreading <- read.csv("/Users/denaclink/Desktop/RStudio Projects/Propagation-Loss-2020-2021/Predicted_dB_Spherical.csv")
 PredictedSpreadingRungan <- subset(PredictedSpreading,Site=='Munkgu')
 
 # Read in data file
 # Each row corresponds to a playback
-rungan_data <- read.csv("PropLoss_test_7Jul22.csv")
+rungan_data <- read.csv("Data/PropLoss_test_7Jul22.csv")
 
 # Create an index with unique date/time combinations
 date.time.combo <- paste(RunganDF$date,RunganDF$time,sep='_')
@@ -219,7 +219,7 @@ observed.prop.lossRunganSubset$Species <-
 
 
 # Add time category
-RunganTimeCats <- read.csv('Rungan_playbackNo_timeCat.csv')
+RunganTimeCats <- read.csv('Data/Rungan_playbackNo_timeCat.csv')
 
 TimeCatsRunganList <- list()
 for(a in 1:nrow(observed.prop.lossRunganSubset)){

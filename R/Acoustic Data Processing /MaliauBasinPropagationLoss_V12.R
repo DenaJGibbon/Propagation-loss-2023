@@ -29,7 +29,7 @@ library(gpx)
 
 # Playback template table
 SelectionIDsMaliau <- 
-  read.delim("/Users/denaclink/Desktop/RStudio Projects/Propagation-Loss-2020-2021/SelectionLabels_S00974_20190811_101922_updated.txt")
+  read.delim("data/SelectionLabels_S00974_20190811_101922_updated_april2024.txt")
 
 TempSoundType <- 
   str_split_fixed(SelectionIDsMaliau$Sound.Type, pattern = '_',n=3)[,2]
@@ -52,15 +52,11 @@ SoundFiles.input.list <- list.files(SoundFiles.input,full.names = T,recursive = 
 
 # Selection table location
 input.dir <- 
-  "/Users/denaclink/Desktop/RStudio Projects/Propagation-Loss-2020-2021/Maliau Basin Selection Tables"
-
-# Read in GPS data
-thirdoctaveband.data <-read.csv("/Users/denaclink/Desktop/RStudio Projects/Propagation-Loss-2020-2021/thirdoctavebands.csv")
-thirdoctaveband.data <- thirdoctaveband.data[10:28,]
+  "data/Maliau Basin Selection Tables"
 
 # Read in GPS data
 source('R/readGPX.R')
-recorder.gps <- readGPX("/Users/denaclink/Downloads/MB Playbacks 50 m.GPX") 
+recorder.gps <- readGPX("data/MB Playbacks 50 m.GPX") 
 
 # Set duration of the noise selection before the start of the actual selection
 timesecs <- 5
@@ -175,7 +171,7 @@ duration.secs <- 40*60
 
 # Create an empty dataframe to add to iteratively in the loop
 BackgroundNoiseRemovedDFMaliau <- data.frame()
-#ThirdOctaveBandDF <- data.frame()
+
 # The loop to calculate inband power (after subtracting the noise) for each selection from the wave file
 for(b in 1:length(file.name.index.sorted)){ tryCatch({ 
   print(paste('processing sound file',file.name.index.sorted[b] ))
@@ -223,15 +219,17 @@ for(b in 1:length(file.name.index.sorted)){ tryCatch({
     rm(wavfile.temp2)
     rm(filteredwaveformdownsample1)
   } else {
+  
   short.wav <- str_split_fixed(soundfile.path,'/',nslash+1)[,nslash+1]
   # Read in the long .wav file
   wavfile.temp <- tuneR::readWave(soundfile.path)
+  
   # Filter before downsample to prevent aliasing
   filteredwaveformdownsample<- bwfilter(wavfile.temp, 
                                         to=18000,
                                         n=3,
                                         output = 'Wave')
-  wavfile.temp@left <-  c(filteredwaveformdownsample)
+  wavfile.temp@left <-  c(filteredwaveformdownsample@left )
   
   # Downsample so that comparable with C. Kalimantan recordings
   wavfile.temp <- tuneR::downsample(wavfile.temp,16000)
@@ -368,7 +366,7 @@ for(b in 1:length(file.name.index.sorted)){ tryCatch({
       data_rms <- rms(data_cal)
       
       # Convert to dB
-      signal.value <- data_rms/20
+      signal.value <- data_rms
       
       # Calculate absolute receive level of the signal in the selection in dB (subtracting noise)
       Selectiontemp$PowerDb <- 20 * log10((signal.value-noise.value))
@@ -384,9 +382,13 @@ for(b in 1:length(file.name.index.sorted)){ tryCatch({
       # Print the output
       print(Selectiontemp)
       
+       # WavName <-paste(Selectiontemp$file.name, Selectiontemp$recorder,Selectiontemp$Sound.Type,Selectiontemp$Selection,
+       #                 round(Selectiontemp$PowerDb,1), sep='_')
+       # NewWavName <-paste('/Volumes/DJC Files/PropLossClips/Maliau/',WavName,'.wav',sep='')
+       # writeWave(ListofWavs[[d]],filename = NewWavName, extensible = F)
       # Combine into a dataframe
       BackgroundNoiseRemovedDFMaliau <- rbind.data.frame(BackgroundNoiseRemovedDFMaliau,Selectiontemp)
-      write.csv(BackgroundNoiseRemovedDFMaliau,'BackgroundNoiseRemovedMaliauJune2023.csv',row.names = F)
+      write.csv(BackgroundNoiseRemovedDFMaliau,'data/MaliauPropLossApril2024.csv',row.names = F)
   }
   
   }

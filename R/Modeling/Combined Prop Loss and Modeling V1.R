@@ -46,6 +46,8 @@ PropogationLossModelingDF <-
           "habitat", "site","noise.level")])
 
 
+ggpubr::ggboxplot(data=PropogationLossModelingDF,
+                  x='habitat', y='actual.receive.level')
 
 ## LMM or GAM? AIC model selection (include all 2-way interactions?)
 ## Response: Prop.Loss = dB loss per doubling log.distance
