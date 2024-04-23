@@ -9,10 +9,11 @@ library(stringr)
 library(tidyverse)
 library(geosphere)
 library(lme4)
+library(DHARMa)
 
 # Playback template table
 SelectionIDsMaliau <- 
-  read.delim("/Users/denaclink/Desktop/RStudio Projects/Propagation-Loss-2020-2021/SelectionLabels_S00974_20190811_101922_updated.txt")
+  read.delim('data/SelectionLabels_S00974_20190811_101922_updated_april2024.txt')
 
 # Remove replicate number
 TempSoundType <- 
@@ -29,7 +30,8 @@ PlaybackSeqUpdated <- PlaybackSeq[-PulsesToRemove]
 SelectionIDsMaliau <- SelectionIDsMaliau[-PulsesToRemove,]
 
 
-MaliauDF <- read.csv("/Users/denaclink/Desktop/RStudio Projects/Propagation-loss-2023/BackgroundNoiseRemovedMaliauJune2023.csv")
+MaliauDF <- read.csv("data/MaliauPropLossApril2024.csv")
+
 MaliauDF <- droplevels(subset(MaliauDF, date != '20190825'))
 
 # Remove pulses
@@ -51,7 +53,7 @@ MaliauDF <- MaliauDF[-PulsesToRemove,]
 
 # Read in GPS data
 source('R/readGPX.R')
-recorder.gps <- readGPX("/Users/denaclink/Downloads/MB Playbacks 50 m.GPX") 
+recorder.gps <- readGPX("data/MB Playbacks 50 m.GPX") 
 
 
 # Convert name so that it matches dataframe
@@ -271,8 +273,8 @@ hist(observed.prop.lossMaliauOutRM$magic.x)
 observed.prop.lossMaliauOutRMdf  <- observed.prop.lossMaliauOutRM
 
 # Remove this playback due to presence of calling gibbons
-observed.prop.lossMaliauOutRMdf  <- 
-  subset(observed.prop.lossMaliauOutRMdf, time!='720' )
+# observed.prop.lossMaliauOutRMdf  <- 
+#   subset(observed.prop.lossMaliauOutRMdf, time!='720' )
 
 
 round(as.numeric(as.character(observed.prop.lossMaliauOutRMdf$time)),0)
@@ -309,9 +311,8 @@ gghistogram(data=observed.prop.lossMaliauOutRMdf,
 gghistogram(data=observed.prop.lossMaliauOutRMdf,
             x="noise.level",facet.by = 'time',fill='Species')
 
-observed.prop.lossMaliauOutRMdf <-subset(observed.prop.lossMaliauOutRMdf,
-       dBdoubledist <0 & dBdoubledist >-20)
-
+# observed.prop.lossMaliauOutRMdf <-subset(observed.prop.lossMaliauOutRMdf,
+#        dBdoubledist <0 & dBdoubledist >-20)
 
 observed.prop.lossMaliauOutRMdf$time <-
   revalue(observed.prop.lossMaliauOutRMdf$time, c('640' = "600", '840' = "800",

@@ -381,9 +381,10 @@ BackgroundNoiseRemovedDFRungan_char3$Sound.Type <- SelectionIDsRungan$Sound.Type
 #BackgroundNoiseRemovedDFRungan <- subset(BackgroundNoiseRemovedDFRungan,Loc_Name != 'char3')
 CombinedDF <-rbind.data.frame(BackgroundNoiseRemovedDFRungan,BackgroundNoiseRemovedDFRungan_char1,BackgroundNoiseRemovedDFRungan_char2,BackgroundNoiseRemovedDFRungan_char3)
 
-write.csv(CombinedDF,'data/RunganPropLossApril2024.csv',row.names = F)
+#write.csv(CombinedDF,'data/RunganPropLossApril2024.csv',row.names = F)
 
 # Part 5. Propagation Loss --------------------------------------------------------
+CombinedDF <- read.csv('data/RunganPropLossApril2024.csv')
 
 # Create an index with unique date/time combinations
 # NOTE: We will need to update this for the full dataset

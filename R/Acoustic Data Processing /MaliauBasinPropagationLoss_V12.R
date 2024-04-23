@@ -404,7 +404,7 @@ rm(filteredwaveformdownsample2)
 }
 
 
-#BackgroundNoiseRemovedDFMaliau <- read.csv("BackgroundNoiseRemovedMaliauAugust9AdaptiveNoise.csv")
+BackgroundNoiseRemovedDFMaliau <- read.csv("data/MaliauPropLossApril2024.csv")
 
 # Part 5. Propagation Loss --------------------------------------------------------
 

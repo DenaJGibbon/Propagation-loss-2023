@@ -18,7 +18,7 @@ library(dplyr)
 dist.to.playback <- 10
 
 SelectionIDsRungan <- 
-  read.delim("/Users/denaclink/Desktop/RStudio Projects/Propagation-Loss-2020-2021/SelectionLabels_S00974_20190811_101922_updated_fundamental.txt")
+  read.delim("data/SelectionLabels_S00974_20190811_101922_updated_april2024.txt")
 
 TempSoundType <- 
   str_split_fixed(SelectionIDsRungan$Sound.Type, pattern = '_',n=3)[,2]
@@ -35,20 +35,22 @@ PlaybackSeq <- seq(1,nrow(SelectionIDsRungan),1)
 SelectionIDsRungan <- SelectionIDsRungan[-PulsesToRemove,]
 
 #NOTE that there are two Pwur call types
-RunganDF <- read.csv('BackgroundNoiseRemovedDFRunganAugust2023.csv')
-PredictedSpreading <- read.csv("/Users/denaclink/Desktop/RStudio Projects/Propagation-Loss-2020-2021/Predicted_dB_Spherical.csv")
+RunganDF <- read.csv('data/RunganPropLossApril2024.csv')
+PredictedSpreading <- read.csv("data/Predicted_dB_Spherical.csv")
 PredictedSpreadingRungan <- subset(PredictedSpreading,Site=='Munkgu')
 
 # Read in data file
 # Each row corresponds to a playback
-rungan_data <- read.csv("Data/PropLoss_test_7Jul22.csv")
+rungan_data <- read.csv("data/PropLoss_test_7Jul22.csv")
+table(rungan_data$Loc_Name,rungan_data$Habitat)
 
 # Create an index with unique date/time combinations
 date.time.combo <- paste(RunganDF$date,RunganDF$time,sep='_')
+
 unique.date.time.combo <- unique(date.time.combo)
 
 Loc_Name.index <- 
-  unique(RunganDF$Loc_Name)
+  unique(rungan_data$Loc_Name)
 
 Loc_Name.index  <- Loc_Name.index[- which(Loc_Name.index %in% c('char1','char2','char3'))]
 
@@ -63,7 +65,7 @@ char.matching <- data.frame(
 observed.prop.lossRungan <- data.frame()
 
 # Loop to calculate propagation loss
-for(z in 1:length(Loc_Name.index)) { #tryCatch({ 
+for(z in c(1:5,7,8)  ) { #tryCatch({ 
   
   # Subset data frame to focus on unique date/time
   temp.playback <- subset(RunganDF,Loc_Name==Loc_Name.index[z])
@@ -209,7 +211,6 @@ ggboxplot(data=observed.prop.lossRunganSubset, y='magic.x',
 
 # Prep Rungan Data
 # observed.prop.lossRunganSubset <- read.csv('observed.prop.lossRunganAugust1.csv')
-
 
 
 observed.prop.lossRunganSubset$Species <- 
