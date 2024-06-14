@@ -19,6 +19,3 @@ Here are some preliminary results from Rungan:
 <img src="runganproploss.png" alt="A. Rungan data." />
 <figcaption aria-hidden="true">A. Rungan data.</figcaption>
 </figure>
-
-Here are some preliminary results from Maliau: ![B. Maliau
-data.](maliauproploss.png)
