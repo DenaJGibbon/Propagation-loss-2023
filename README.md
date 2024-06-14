@@ -13,14 +13,12 @@ Data for modeling is here:
 Note that the data for modeling is further processed in the ‘modeling
 scripts’ to calculate propagation loss.
 
-Here are some preliminary results:
+Here are some preliminary results from Rungan:
 
 <figure>
 <img src="runganproploss.png" alt="A. Rungan data." />
 <figcaption aria-hidden="true">A. Rungan data.</figcaption>
 </figure>
 
-<figure>
-<img src="maliauproploss.png" alt="B. Maliau data." />
-<figcaption aria-hidden="true">B. Maliau data.</figcaption>
-</figure>
+Here are some preliminary results from Maliau: ![B. Maliau
+data.](maliauproploss.png)
