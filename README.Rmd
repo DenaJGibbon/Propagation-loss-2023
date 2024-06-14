@@ -20,12 +20,11 @@ Data for modeling is here: https://github.com/DenaJGibbon/Propagation-loss-2023/
 
 Note that the data for modeling is further processed in the 'modeling scripts' to calculate propagation loss. 
 
-Here are some preliminary results
-
-![Maliau data.](maliauproploss.png)
+Here are some preliminary results:
 
 
-And here is some data from Rungan. 
+![A. Rungan data.](runganproploss.png)
 
 
-![Rungan data.](runganproploss.png)
+
+![B. Maliau data.](maliauproploss.png)
