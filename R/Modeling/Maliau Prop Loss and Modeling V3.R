@@ -74,7 +74,7 @@ colnames(dist.mat) <- c(as.character(small.gps.df$recorder))
 rownames(dist.mat) <- c(as.character(small.gps.df$recorder))
 
 
-dist.to.playback.maliau <- 26.4    #17.1
+dist.to.playback.maliau <- 26.4   
 
 # Check output
 dist.source.vector <- ((dist.mat+dist.to.playback.maliau)[,1])

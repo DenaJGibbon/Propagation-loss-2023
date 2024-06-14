@@ -4,7 +4,6 @@ library(stringr)
 library(plyr)
 library(ggpubr)
 library(geosphere)
-library(plotKML)
 library(lme4)
 library(lmerTest)
 library(ggplot2)
@@ -35,7 +34,7 @@ PlaybackSeq <- seq(1,nrow(SelectionIDsRungan),1)
 SelectionIDsRungan <- SelectionIDsRungan[-PulsesToRemove,]
 
 #NOTE that there are two Pwur call types
-RunganDF <- read.csv('data/RunganPropLossApril2024.csv')
+RunganDF <- read.csv('data/RunganPropLossMay2024.csv')
 PredictedSpreading <- read.csv("data/Predicted_dB_Spherical.csv")
 PredictedSpreadingRungan <- subset(PredictedSpreading,Site=='Munkgu')
 
@@ -207,7 +206,6 @@ ggboxplot(data=observed.prop.lossRunganSubset, y='magic.x',
 
 
 # Modeling ----------------------------------------------------------------
-
 
 # Prep Rungan Data
 # observed.prop.lossRunganSubset <- read.csv('observed.prop.lossRunganAugust1.csv')

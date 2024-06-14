@@ -1,0 +1,28 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Propagation-loss-2023
+
+Folders linked here: https://github.com/DenaJGibbon/Propagation-loss-2023/tree/main/R contain scripts for acoustic data processing and modeling.
+
+Data for modeling is here: https://github.com/DenaJGibbon/Propagation-loss-2023/tree/main/dataformodeling
+
+
+Note that the data for modeling is further processed in the 'modeling scripts' to calculate propagation loss. 
+
+Here are some preliminary results
+
+![Maliau data.](maliauproploss.png)
+
+
+![Rungan data.](runganproploss.png)

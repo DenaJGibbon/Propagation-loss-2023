@@ -29,7 +29,7 @@ library(geosphere)
 #library(plotKML)
 library(dplyr)
 library(googledrive)
-googledrive::drive_auth()
+#googledrive::drive_auth() # NEED TO UNCOMMENT TO ACCESS GOOGLE DRIVE
 
 # Part 2. Set up data -------------------------------------------------------------
 
@@ -37,12 +37,14 @@ googledrive::drive_auth()
 SelectionIDsRungan <- 
   read.delim("data/SelectionLabels_S00974_20190811_101922_updated_april2024.txt")
 
+# isolate sound type without replicate
 TempSoundType <- 
   str_split_fixed(SelectionIDsRungan$Sound.Type, pattern = '_',n=3)[,2]
 
 TempSoundType <- substr(TempSoundType,start = 1,stop=2)
 
 # Remove pulses
+# DENA NOTE: Why did we remove some pulses from rungan?
 PulsesToRemove <- which(TempSoundType!="Hf" & TempSoundType!="Ha"
                         & TempSoundType!="Pm" & TempSoundType!="Pw" )
 
@@ -381,7 +383,7 @@ BackgroundNoiseRemovedDFRungan_char3$Sound.Type <- SelectionIDsRungan$Sound.Type
 #BackgroundNoiseRemovedDFRungan <- subset(BackgroundNoiseRemovedDFRungan,Loc_Name != 'char3')
 CombinedDF <-rbind.data.frame(BackgroundNoiseRemovedDFRungan,BackgroundNoiseRemovedDFRungan_char1,BackgroundNoiseRemovedDFRungan_char2,BackgroundNoiseRemovedDFRungan_char3)
 
-#write.csv(CombinedDF,'data/RunganPropLossApril2024.csv',row.names = F)
+#write.csv(CombinedDF,'data/RunganPropLossMay2024.csv',row.names = F)
 
 # Part 5. Propagation Loss --------------------------------------------------------
 CombinedDF <- read.csv('data/RunganPropLossApril2024.csv')

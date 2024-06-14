@@ -27,6 +27,10 @@ library(gpx)
 
 # Part 2. Set up data -------------------------------------------------------------
 
+# Sound file location - NEED TO CHANGE THIS FOR YOUR MACHINE
+SoundFiles.input <- 
+  '/Users/denaclink/Library/CloudStorage/Box-Box/CCB Datastore/Projects/2018/2018_BRP_Borneo_T0046/Clink_BRP_3TB/2019 Maliau Basin/Playbacks_50m'
+
 # Playback template table
 SelectionIDsMaliau <- 
   read.delim("data/SelectionLabels_S00974_20190811_101922_updated_april2024.txt")
@@ -44,9 +48,6 @@ PlaybackSeq <- seq(1,nrow(SelectionIDsMaliau),1)
 PlaybackSeqUpdated <- PlaybackSeq[-PulsesToRemove]
 SelectionIDsMaliau <- SelectionIDsMaliau[-PulsesToRemove,]
 
-# Sound file location
-SoundFiles.input <- 
-  '/Users/denaclink/Library/CloudStorage/Box-Box/CCB Datastore/Projects/2018/2018_BRP_Borneo_T0046/Clink_BRP_3TB/2019 Maliau Basin/Playbacks_50m'
 
 SoundFiles.input.list <- list.files(SoundFiles.input,full.names = T,recursive = T)
 
@@ -388,7 +389,7 @@ for(b in 1:length(file.name.index.sorted)){ tryCatch({
        # writeWave(ListofWavs[[d]],filename = NewWavName, extensible = F)
       # Combine into a dataframe
       BackgroundNoiseRemovedDFMaliau <- rbind.data.frame(BackgroundNoiseRemovedDFMaliau,Selectiontemp)
-      write.csv(BackgroundNoiseRemovedDFMaliau,'data/MaliauPropLossApril2024.csv',row.names = F)
+      write.csv(BackgroundNoiseRemovedDFMaliau,'data/MaliauPropLossApril2024test.csv',row.names = F)
   }
   
   }
