@@ -20,4 +20,9 @@ Here are some preliminary results
 <figcaption aria-hidden="true">Maliau data.</figcaption>
 </figure>
 
-And here is some data from Rungan ![Rungan data.](runganproploss.png)
+And here is some data from Rungan.
+
+<figure>
+<img src="runganproploss.png" alt="Rungan data." />
+<figcaption aria-hidden="true">Rungan data.</figcaption>
+</figure>
