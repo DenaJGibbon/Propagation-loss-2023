@@ -25,4 +25,5 @@ Here are some preliminary results
 ![Maliau data.](maliauproploss.png)
 
 
+And here is some data from Rungan
 ![Rungan data.](runganproploss.png)
