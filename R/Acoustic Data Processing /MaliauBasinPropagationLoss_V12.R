@@ -7,7 +7,7 @@
 # Version 4. Remove adaptive noise estimates
 # Version 5. Ignores playbacks that overlap two recordings.
 # Version 6. Add playbacks over two recordings; filter before downsample to prevent aliasing
-# Version 7. Remove all orangutan pulses and upsweeps to focus only on gibbons
+# Version 7. Remove all orangutan Sounds and upsweeps to focus only on gibbons
 # Version 8. Add back adaptive noise
 # Version 9. Shift frequency of trill down to avoid background noise
 # Version 10. Add signal without background noise removed; remove .25 quantile noise
@@ -35,28 +35,33 @@ SoundFiles.input <-
 SelectionIDsMaliau <- 
   read.delim("data/SelectionLabels_S00974_20190811_101922_updated_april2024.txt")
 
+# Separate sound type character
 TempSoundType <- 
   str_split_fixed(SelectionIDsMaliau$Sound.Type, pattern = '_',n=3)[,2]
 
+# Take the first two letters to identify by species
 TempSoundType <- substr(TempSoundType,start = 1,stop=2)
 
-# Remove pulses
-PulsesToRemove <- which(TempSoundType!="Hf" & TempSoundType!="Ha" & TempSoundType!="Pm") # & TempSoundType!="Pm"
+# Identify which sound types to keep
+SoundsToRemove <- which(TempSoundType!="Hf" & TempSoundType!="Ha" & TempSoundType!="Pm") # & TempSoundType!="Pm"
 
+# Create a sequency for each row
 PlaybackSeq <- seq(1,nrow(SelectionIDsMaliau),1)
 
-PlaybackSeqUpdated <- PlaybackSeq[-PulsesToRemove]
-SelectionIDsMaliau <- SelectionIDsMaliau[-PulsesToRemove,]
+# Remove rows that we are not foucsing on
+SelectionIDsMaliau <- SelectionIDsMaliau[-SoundsToRemove,]
 
-
+# Create list of sound files
 SoundFiles.input.list <- list.files(SoundFiles.input,full.names = T,recursive = T)
 
 # Selection table location
 input.dir <- 
   "data/Maliau Basin Selection Tables"
 
-# Read in GPS data
+# Read in GPS function
 source('R/readGPX.R')
+
+# Read in GPS points
 recorder.gps <- readGPX("data/MB Playbacks 50 m.GPX") 
 
 # Set duration of the noise selection before the start of the actual selection
@@ -151,20 +156,26 @@ head(BackgroundNoiseRemovedDFMaliau.test)
 # Create an index for each file
 file.name.index <- unique(BackgroundNoiseRemovedDFMaliau.test$file.name)
 
+# Determine date only
 date.only <- str_split_fixed(file.name.index,pattern = '_',n=2)[,2] 
 
+# Combine data and file name
 file.name.date <- cbind.data.frame(file.name.index,date.only)                
 
+# Order by date
 file.name.date.reorder <- file.name.date[order(file.name.date$date.only), ]
 
+# Sorty by date
 file.name.index.sorted <- file.name.date.reorder$file.name.index
 
 # Remove recordings with gibbons calling and from 25-m spacing line
 file.name.index.sorted <- file.name.index.sorted[-c(1:4,167:202)]
 
+# Identify times from file name
 times <- 
   str_split_fixed(file.name.index.sorted,pattern = '_',n=3)[,3]
 
+# Create hour vector
 times <- substr(times,start=3,stop=4)
 
 # Determine number of seconds in recording to identify if need to stitch together
@@ -180,13 +191,15 @@ for(b in 1:length(file.name.index.sorted)){ tryCatch({
   # Subset by recorder and date index
   singleplayback.df <- subset(BackgroundNoiseRemovedDFMaliau.test,file.name==file.name.index.sorted[b])
   
-  singleplayback.df <-singleplayback.df[-PulsesToRemove,]
+  singleplayback.df <-singleplayback.df[-SoundsToRemove,]
  
   # Create sound file path
-  
   soundfile.path <-  SoundFiles.input.list[str_detect(SoundFiles.input.list,singleplayback.df$file.name[1])]
+  
+  # Count number of slashes
   nslash <- str_count(soundfile.path,'/')
   
+  # Determine end time
   Selection.end.time <- 
     singleplayback.df[nrow(singleplayback.df),]$End.Time..s.
   
