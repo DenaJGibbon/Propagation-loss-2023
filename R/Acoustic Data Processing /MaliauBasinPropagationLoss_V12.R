@@ -1,6 +1,6 @@
 # This is the R code to estimate propagation loss in Borneo 
 
-
+setwd("/Users/denaclink/Desktop/RStudioProjects/Propagation-loss-2023")
 # Version summary ---------------------------------------------------------
 # Version 2. Add adaptive noise estimates
 # Version 3. Modify noise calculations so divide into ten 1-sec bins
@@ -402,7 +402,7 @@ for(b in 1:length(file.name.index.sorted)){ tryCatch({
        # writeWave(ListofWavs[[d]],filename = NewWavName, extensible = F)
       # Combine into a dataframe
       BackgroundNoiseRemovedDFMaliau <- rbind.data.frame(BackgroundNoiseRemovedDFMaliau,Selectiontemp)
-      write.csv(BackgroundNoiseRemovedDFMaliau,'data/MaliauPropLossApril2024test.csv',row.names = F)
+      write.csv(BackgroundNoiseRemovedDFMaliau,'data/MaliauPropLossJuly2024.csv',row.names = F)
   }
   
   }

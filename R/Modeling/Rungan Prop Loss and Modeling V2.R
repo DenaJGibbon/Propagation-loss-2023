@@ -34,7 +34,7 @@ PlaybackSeq <- seq(1,nrow(SelectionIDsRungan),1)
 SelectionIDsRungan <- SelectionIDsRungan[-PulsesToRemove,]
 
 #NOTE that there are two Pwur call types
-RunganDF <- read.csv('data/RunganPropLossMay2024.csv')
+RunganDF <- read.csv('data/RunganPropLossSept2025_addcharacterized.csv')
 PredictedSpreading <- read.csv("data/Predicted_dB_Spherical.csv")
 PredictedSpreadingRungan <- subset(PredictedSpreading,Site=='Munkgu')
 
@@ -64,7 +64,7 @@ char.matching <- data.frame(
 observed.prop.lossRungan <- data.frame()
 
 # Loop to calculate propagation loss
-for(z in c(1:5,7,8)  ) { #tryCatch({ 
+for(z in c(1:7)  ) { tryCatch({ 
   
   # Subset data frame to focus on unique date/time
   temp.playback <- subset(RunganDF,Loc_Name==Loc_Name.index[z])
@@ -184,7 +184,7 @@ for(z in c(1:5,7,8)  ) { #tryCatch({
        }
     
   }
-#}, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
+}, error=function(e){cat("ERROR :",conditionMessage(e), "\n")})
   
 }
 
